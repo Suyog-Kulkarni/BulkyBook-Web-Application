@@ -14,6 +14,11 @@ namespace BulkyBookWeb.Models
 
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         // datetime.now is a static method that returns the current date and time
+        public static Category fun()
+        {
+            Category c = new();
+            return c;
+        }
 
     } 
     public class Info

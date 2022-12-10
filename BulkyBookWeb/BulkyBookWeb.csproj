@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\HomeController1.cs" />
     <Compile Remove="Migrations\20221208190729_for_info.cs" />
     <Compile Remove="Migrations\20221208190729_for_info.Designer.cs" />
+    <Compile Remove="Migrations\20221208193427_for_cat.cs" />
+    <Compile Remove="Migrations\20221208193427_for_cat.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
