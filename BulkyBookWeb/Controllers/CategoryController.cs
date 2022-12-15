@@ -3,6 +3,9 @@ using BulkyBookWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 
+// while working with controllers restart to application to see the changes
+
+
 namespace BulkyBookWeb.Controllers
 {
     public class CategoryController : Controller
@@ -48,13 +51,24 @@ namespace BulkyBookWeb.Controllers
         public IActionResult Create(Category obj) // FIND HOW THIS IS CONNECTED TO CREATE BUTTON 
         {
             // this method didnt run after pressing createnewcat. because we defined it as post(send data method)
+            if (obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("Name", "Name and DisplayOrder cannot be same.");
+                // will be displayed only under name else use Customerror to display overall using 
+                // all in asp-validation-summary helper tag in view
+            }
+           if (ModelState.IsValid)// modelstate.isvalid checks that is it possible to bind the model with the view
+           {
+
+            _db.Categories.Add(obj);
+            _db.SaveChanges();
+            return Redirect("Index");
+
+           /*return Redirect("Index");*/
+            }
             
-                
-                _db.Categories.Add(obj);
-                _db.SaveChanges();
-                return Redirect("Index");
+            return View(obj);
             
-            /*return Redirect("Index");*/
             
 
         }
