@@ -35,9 +35,9 @@
             <th>
                 Display Order
             </th>
-            @*<th>
-                CreatedDateTime
-            </th>*@
+            <th>
+                Edit
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -51,9 +51,13 @@
                 <td width="30%">
                     @item.DisplayOrder
                 </td>
-                @*<td >
-                    @item.CreatedDateTime
-                </td>*@
+                <td >
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id"
+                            class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i>Edit
+                        </a>
+                    </div>
+                </td>
             </tr>
             
         }
