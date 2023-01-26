@@ -12,6 +12,10 @@ namespace BulkyBookWeb.Controllers
         {
             _logger = logger;
         }
+        /*[Route("")]
+        [Route("Home")]
+        [Route("Home/Index")]*/ /*if url have any of these then index action will run*/ 
+        /* error occurs if default routing in not on so use above annotations to use cousyomly*/
 
         public IActionResult Index()
         {
