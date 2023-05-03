@@ -4,27 +4,34 @@
 <form method="post">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="trxt-primary">Create Category</h2>
+            <h2 class="text-primary">Create Category</h2>
             <hr />
         </div>
         @*<div asp-validation-summary="All"></div>*@
-        <div class="mb-3">
-            <label asp-for="Name"> </label>
+        <div class="mb-3 row p-1"> @*added row class to make the form responsive*@
+            <label asp-for="Name" class="p-0"> </label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
             
         </div>
-        <div class="mb-3">
-            <label asp-for="DisplayOrder"> </label>
+        <div class="mb-3 row p-1">
+            <label asp-for="DisplayOrder" class="p-0"> </label>
             <input asp-for="DisplayOrder" class="form-control" />
             <span asp-validation-for="DisplayOrder" class="text-danger"></span>
 
+
         </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
-        @*<button>Click</button>*@
-        <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">
-            Back to List
-        </a>
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-primary form-control">Create</button>
+
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-controller="Category" asp-action="Index" class="btn btn-secondary border form-control">
+                    Back to List
+                </a>
+            </div>
+        </div>
     </div>
 </form>
 

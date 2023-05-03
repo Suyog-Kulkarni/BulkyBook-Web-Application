@@ -4,7 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-
 @*Layout = "_can set any layout for that particular view";*@
 
 
@@ -20,11 +19,11 @@
             </a>
         </div>
         <br /><br /><br />
-        <div class="col-12 text-end">
+        @*<div class="col-12 text-end">
             <a asp-controller="Category" asp-action="Sample" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> &nbsp; Display More
             </a>
-        </div>
+        </div>*@
         
         
     </div>
@@ -46,14 +45,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var item in Model)
+        @foreach(var item in Model.OrderBy(p=>p.DisplayOrder))
         {
             <tr>
-                <td width="50%">
+                <td >
                     @item.Name
                 
                 </td>
-                <td width="30%">
+                <td>
                     @item.DisplayOrder
                 </td>
                 <td >
@@ -61,6 +60,10 @@
                         <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id"
                             class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i>Edit
                         </a>
+                            <a asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id"
+                               class="btn btn-danger mx-2">
+                                <i class="bi bi-trash-fill"></i>Delete
+                            </a>
                         @*asp-append-version = "true", changes the image if the it's name changed otherwise the browser will continue to show old cache image'
                         based on the content of the image a unique hash value is created and appended to image url*@
                     </div>
