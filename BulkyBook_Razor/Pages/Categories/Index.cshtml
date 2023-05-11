@@ -1,0 +1,73 @@
+﻿@page 
+@*this is a razor page denoted by @page*@
+@model BulkyBook_Razor.Pages.Categories.IndexModel
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Category List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-page="/Categories/create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Create New Category
+            </a>
+        </div>
+        <br /><br /><br />
+        @*<div class="col-12 text-end">
+        <a asp-controller="Category" asp-action="Sample" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> &nbsp; Display More
+        </a>
+        </div>*@
+
+
+    </div>
+    <br /><br />
+
+
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Category Name
+                </th>
+                <th>
+                    Display Order
+                </th>
+                <th>
+                    Edit
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CategoryList.OrderBy(p => p.DisplayOrder))
+            {
+                <tr>
+                    <td>
+                        @item.Name
+
+                    </td>
+                    <td>
+                        @item.DisplayOrder
+                    </td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-page="/Categories/edit" asp-route-id="@item.Id"
+                               class="btn btn-primary mx-2">
+                                <i class="bi bi-pencil-square"></i>Edit
+                            </a>
+                            <a asp-page="/Categories/delete" asp-route-id="@item.Id"
+                               class="btn btn-danger mx-2">
+                                <i class="bi bi-trash-fill"></i>Delete
+                            </a>
+                            @*asp-append-version = "true", changes the image if the it's name changed otherwise the browser will continue to show old cache image'
+                        based on the content of the image a unique hash value is created and appended to image url*@
+                        </div>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+</div>
+
