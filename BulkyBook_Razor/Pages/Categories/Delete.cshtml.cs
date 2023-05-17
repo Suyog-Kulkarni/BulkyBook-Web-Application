@@ -5,30 +5,30 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BulkyBook_Razor.Pages.Categories
 {
-    public class CreateModel : PageModel
+    public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _db;
-
         [BindProperty]
-        public Category category { set; get; }
+        public Category? Category { get; set; }
 
-        public CreateModel(ApplicationDbContext db)
+        public DeleteModel(ApplicationDbContext db)
         {
             _db = db;
         }
-        public void OnGet()
+        public void OnGet(int id)
         {
+            Category = _db.Categories.Find(id);
         }
 
         public async Task<IActionResult> OnPost()
         {
-            if (ModelState.IsValid)// modelstate is valid when all the required fields are filled in the form and the data is in the correct format as specified in the model 
+            if(Category is not null)
             {
-                await _db.Categories.AddAsync(category);
+                _db.Categories.Remove(Category);
                 await _db.SaveChangesAsync();
                 return RedirectToPage("Index");
             }
-            else 
+            else
             {
                 return Page();
             }

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBookWeb", "BulkyBookWeb.csproj", "{2436BE9B-AB96-4232-950E-E05A0283DE72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook_Razor", "..\BulkyBook_Razor\BulkyBook_Razor.csproj", "{20D23215-C317-4313-A8A6-B8A032811A5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook_Razor", "..\BulkyBook_Razor\BulkyBook_Razor.csproj", "{20D23215-C317-4313-A8A6-B8A032811A5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

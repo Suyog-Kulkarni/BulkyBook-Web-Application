@@ -18,5 +18,20 @@ namespace BulkyBook_Razor.Pages.Categories
         {
             CategoryList = _db.Categories.ToList();
         }
+
+        public async Task<IActionResult> OnPost(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                await _db.Categories.AddAsync(category);
+                await _db.SaveChangesAsync();
+                return RedirectToPage("Index");
+
+            }
+            else
+            {
+                return Page();
+            }
+        }
     }
 }
