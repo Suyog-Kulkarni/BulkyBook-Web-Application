@@ -1,5 +1,5 @@
-﻿using BulkyBookWeb.Data;
-using BulkyBookWeb.Models;
+﻿using Bulky.DataAccess.Data;
+using Bulky.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 

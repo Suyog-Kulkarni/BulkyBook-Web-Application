@@ -1,32 +1,43 @@
 ﻿@model Category
-
-<form method="post" asp-action="Edit">@*VALUS FOR NAME AND DISPLAYORDER WILL GET DISPLAYED BY DEFAULT BECAUSE THEY HAVE VALUS IN THEM*@
-    @*<input asp-for="Id" hidden /> instead of updating if new is getting created then use this stat.*@ 
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class="trxt-primary">Edit Category</h2>
-            <hr />
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">
+                    Edit Category
+                </h2>
+            </div>
         </div>
-        @*<div asp-validation-summary="All"></div>*@
-        <div class="mb-3">
-            <label asp-for="Name"> </label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-            
-        </div>
-        <div class="mb-3">
-            <label asp-for="DisplayOrder"> </label>
-            <input asp-for="DisplayOrder" class="form-control" />
-            <span asp-validation-for="DisplayOrder" class="text-danger"></span>
-
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
-        @*<button>Click</button>*@
-        <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">
-            Back to List
-        </a>
     </div>
-</form>
+    <div class="card-body p-4">
+        <form method="post" asp-action="Edit">
+            @*VALUS FOR NAME AND DISPLAYORDER WILL GET DISPLAYED BY DEFAULT BECAUSE THEY HAVE VALUS IN THEM*@
+            @*<input asp-for="Id" hidden /> instead of updating if new is getting created then use this stat.*@
+            <input asp-for="Id" hidden />
+            <div class="border p-3 mt-4">
+                @*<div asp-validation-summary="All"></div>*@
+                <div class="mb-3">
+                    <label asp-for="Name" class="ms-2"> </label>
+                    <input asp-for="Name" class="form-control border-0 shadow" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+
+                </div>
+                <div class="mb-3">
+                    <label asp-for="DisplayOrder" class="ms-2"> </label>
+                    <input asp-for="DisplayOrder" class="form-control border-0 shadow" />
+                    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+                @*<button>Click</button>*@
+                <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">
+                    Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 @* A section allows you to add something in a view which will be added in the layout. or to render a cartain,part *@
 @section Scripts{

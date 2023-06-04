@@ -8,10 +8,6 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\HomeController1.cs" />
-    <Compile Remove="Migrations\20221208190729_for_info.cs" />
-    <Compile Remove="Migrations\20221208190729_for_info.Designer.cs" />
-    <Compile Remove="Migrations\20221208193427_for_cat.cs" />
-    <Compile Remove="Migrations\20221208193427_for_cat.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +19,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bulky.DataAccess\Bulky.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
