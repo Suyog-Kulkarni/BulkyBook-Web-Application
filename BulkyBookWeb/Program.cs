@@ -10,6 +10,9 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseSq
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+// in transient service, jevdhya ves service call kelya jail tevdha ves new object create karto
+// in scoped service, pratek service la ekdach implemantation delya jail karan he request var depend karto
+// in singleton service, jevdhya ves service call kelya jail tevdha ves same object create karto
 
 
 var app = builder.Build();
