@@ -1,6 +1,8 @@
 using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository;
 using Bulky.DataAccess.Repository.IRepository;
+using BulkyBook.DataAccess.Repository;
+using BulkyBook.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +17,7 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 // in transient service, jevdhya ves service call kelya jail tevdha ves new object create karto
 // in scoped service, pratek service la ekdach implemantation delya jail karan he request var depend karto
 // in singleton service, jevdhya ves service call kelya jail tevdha ves same object create karto
-builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();// jevha pan 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); 
 
 var app = builder.Build();
 
@@ -36,6 +38,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

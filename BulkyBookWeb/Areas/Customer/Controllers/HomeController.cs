@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace BulkyBookWeb.Controllers
+namespace BulkyBookWeb.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -14,7 +15,7 @@ namespace BulkyBookWeb.Controllers
         }
         /*[Route("")]
         [Route("Home")]
-        [Route("Home/Index")]*/ /*if url have any of these then index action will run*/ 
+        [Route("Home/Index")]*/ /*if url have any of these then index action will run*/
         /* error occurs if default routing in not on so use above annotations to use cousyomly*/
 
         public IActionResult Index()
@@ -32,6 +33,6 @@ namespace BulkyBookWeb.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        
+
     }
 }
