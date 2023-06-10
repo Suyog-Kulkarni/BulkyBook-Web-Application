@@ -14,11 +14,13 @@ namespace BulkyBook.DataAccess.Repository
     {
         private readonly ApplicationDbContext _db;
         public ICategoryRepository Category { get; private set; } // private set because we don't want to set it from outside
+        public IProductRepository Product { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db) // constructor
         {
             _db = db;
             Category = new CategoryRepository(_db);
+            Product = new ProductRepository(_db);
         }
 
         public void Save()
