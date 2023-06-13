@@ -25,7 +25,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product product)
+        private IActionResult Create(Product product)
         {
             if (ModelState.IsValid)
             {
@@ -38,7 +38,8 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return View("Index","Category");
             
         }
-        public IActionResult Edit(int? id)
+        [HttpGet]
+        private IActionResult Edit(int? id)
         {
             if(id is null or 0)
             {
@@ -56,17 +57,21 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public IActionResult Edit(Product product)
+        private IActionResult Edit(Product product)
         {
-            _unitOfWork.Product.Update(product);
-            _unitOfWork.Save();
-            TempData["Success"] = "Product Updated successfully";
-            return RedirectToAction(nameof(Index));// or return View("Index"); or rediect("Index");
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Product.Update(product);
+                _unitOfWork.Save();
+                TempData["Success"] = "Product Updated successfully";
+                return RedirectToAction(nameof(Index));// or return View("Index"); or rediect("Index");
 
+            }
+            return View(product);
 
         }
         [HttpGet]
-        public IActionResult Delete(int? id)
+        private IActionResult Delete(int? id)
         {
             if(id is null or 0)
             {
@@ -82,7 +87,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         }
 
         [HttpPost,ActionName("Delete")]
-        public IActionResult DeleteProd(int? id)
+        private IActionResult DeleteProd(int? id)
         {
             var product = _unitOfWork.Product.Get(p => p.Id == id);
             if(product is null)
