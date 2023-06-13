@@ -11,7 +11,7 @@ namespace Bulky.DataAccess.Repository.IRepository
     {
         void Update(Category obj);
     }
-
+    
     /*public interface IProductRepo : IRepository<Category>
     {
         void Update(Category obj);
