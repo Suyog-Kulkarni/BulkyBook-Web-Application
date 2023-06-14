@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bulky.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace BulkyBook.Models
 {
@@ -47,9 +48,10 @@ namespace BulkyBook.Models
 
         public int CategoryId { get; set; }// this is a foreign key to the Category table and the Id column 
         [ForeignKey("CategoryId")]
+        [ValidateNever]
         public Category? Category { get; set; }// this is a navigation property to the Category table
-       
-        public string ImageUrl { get; set; }
+        [ValidateNever]
+        public string? ImageUrl { get; set; }
     
     
     }

@@ -1,5 +1,6 @@
 ﻿using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
+using BulkyBook.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return View(products);
         }
         // GET 
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)// upsert is a combination of update and insert 
         {
             IEnumerable<SelectListItem> listItems = _unitOfWork.Category.GetAll().Select( // this is a list of select list items 
                 u => new SelectListItem// this is a class that represents an item in a select list 
@@ -31,25 +32,52 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
              );// this concept is called projection in which we project the data from one form to another  
             ViewBag.CategoryList = listItems;// this is a dynamic property that can be used to pass data from the controller to the view 
             // and we use projection because we want to pass only the name and id of the category to the view and not the entire category object
-            return View();
+            ProductVM productVM = new()// viewmodel
+            {
+                Product = new Product(),
+                CategoryList = listItems
+            };// this is an object of the productVM class that we created in the models folder
+            if(id is null or 0)
+            {
+                //create
+                return View(productVM);
+
+            }
+            else
+            {
+                //update
+                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id);
+                return View(productVM);
+            }
+            
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product product)
+        public IActionResult Upsert(ProductVM vM, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Add(product);
+                _unitOfWork.Product.Update(vM.Product);
                 _unitOfWork.Save();
                 TempData["Success"] = "Product created successfully";
                 return RedirectToAction(nameof(Index));// or return View("Index"); or rediect("Index");
 
             }
-            return View("Index","Category");
+            else 
+            // even if the model state is not valid the categorylist must be populated with the data that the user enteredz 
+            {// if the model state is not valid then we need to return the view with the data that the user entered 
+                vM.CategoryList = _unitOfWork.Category.GetAll().Select(
+                    u => new SelectListItem
+                    {
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    });
+                return View(vM);
+            }
             
         }
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Edit(int? id)
         {
             if(id is null or 0)
@@ -80,7 +108,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             }
             return View(product);
 
-        }
+        }*/
         [HttpGet]
         public IActionResult Delete(int? id)
         {
