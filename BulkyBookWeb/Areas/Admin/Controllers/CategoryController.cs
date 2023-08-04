@@ -105,7 +105,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                 // all in asp-validation-summary helper tag in view
             }*/
             if (ModelState.IsValid)
-            {
+            { 
                 _unitOfWork.Category.Update(obj);
                 _unitOfWork.Save();
                 TempData["Success"] = "Category updated successfully";
@@ -147,7 +147,13 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             _db.cat.remove(obj);
             */
 
+        }   
+        public void ToClear()
+        {
+            _unitOfWork.Product.RemoveRange(_unitOfWork.Product.GetAll());
+
         }
+    
 
     }
 }

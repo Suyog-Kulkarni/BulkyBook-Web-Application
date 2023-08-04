@@ -11,9 +11,11 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProductController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _hostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
         {
@@ -58,7 +60,45 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Update(vM.Product);
+                string webRootPath = _hostEnvironment.WebRootPath;
+
+                if(file is not null)
+                {
+                    string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string ProductPath = Path.Combine(webRootPath,@"images/product");
+
+                    if (!String.IsNullOrEmpty(vM.Product.ImageUrl))
+                    {
+                        //delete the original file
+                        string oldfilepath = Path.Combine(webRootPath, vM.Product.ImageUrl.TrimStart('\\'));
+                        
+                        if(System.IO.File.Exists(oldfilepath)) // this is to check if the file exists or not 
+                        {
+                            System.IO.File.Delete(oldfilepath);// this is to delete the file
+                        }
+                    }
+
+
+                    using (var filestream = new FileStream(Path.Combine(ProductPath, filename),FileMode.Create))
+                    {
+                        file.CopyTo(filestream);
+                    }
+
+                    vM.Product.ImageUrl = @"/images/product/" + filename;
+
+                    if(vM.Product.Id is 0)
+                    {
+                        // to create a new product
+                        _unitOfWork.Product.Add(vM.Product);
+                    }
+                    else
+                    {
+                        // to update an existing product
+                        _unitOfWork.Product.Update(vM.Product);
+                    }
+                }
+
+                
                 _unitOfWork.Save();
                 TempData["Success"] = "Product created successfully";
                 return RedirectToAction(nameof(Index));// or return View("Index"); or rediect("Index");
