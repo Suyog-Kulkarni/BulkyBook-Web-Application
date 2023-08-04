@@ -20,11 +20,12 @@ namespace BulkyBook.DataAccess.Repository
 
         public void Update(Product product)
         {
+
             var objFromDb = _context.Products.FirstOrDefault(u => u.Id == product.Id);
 
             // this is the product that we want to update
 
-            if(objFromDb is not null)
+            if (objFromDb is not null)
             {
                 objFromDb.Title = product.Title;
                 objFromDb.Description = product.Description;
@@ -36,7 +37,7 @@ namespace BulkyBook.DataAccess.Repository
                 objFromDb.Price100 = product.Price100;
                 objFromDb.CategoryId = product.CategoryId;
 
-                if(objFromDb.ImageUrl is not null)
+                if (objFromDb.ImageUrl is not null)
                 {
                     objFromDb.ImageUrl = product.ImageUrl; // if the user uploads a new image then we will update the image url in the database 
                 }

@@ -49,9 +49,9 @@ namespace BulkyBook.Models
         public int CategoryId { get; set; }// this is a foreign key to the Category table and the Id column 
         [ForeignKey("CategoryId")]
         [ValidateNever]
-        public Category? Category { get; set; }// this is a navigation property to the Category table
+        public Category Category { get; set; }// this is a navigation property to the Category table
         [ValidateNever]
-        public string? ImageUrl { get; set; }
+        public string ImageUrl { get; set; }
     
     
     }
