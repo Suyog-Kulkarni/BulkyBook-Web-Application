@@ -23,7 +23,7 @@
                 </a>
             </div>
         </div>
-        <table class="table table-bordered table-striped" style="width:100%">
+        <table id="tblData" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
                     <th>
@@ -41,48 +41,13 @@
                     <th>
                         Category
                     </th>
-                    
+                    <th></th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                        <tr>
-                            <td>
-                            @item.Title
-
-                            </td>
-                            <td>
-                            @item.ISBN
-                            </td>
-                            <td>
-                                @item.Price
-                            </td>
-                            <td>
-                                @item.Author
-                            </td>
-                            <td> 
-                                @item.Category.Name 
-                            </td>
-                            
-                            <td>
-                                <div class="w-75 btn-group" role="group">
-                                    <a asp-controller="Product" asp-action="Upsert" asp-route-id="@item.Id"
-                                       class="btn btn-primary mx-2">
-                                        <i class="bi bi-pencil-square"></i>Edit
-                                    </a>
-                                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id"
-                                       class="btn btn-danger mx-2">
-                                        <i class="bi bi-trash-fill"></i>Delete
-                                    </a>
-                                @*asp-append-version = "true", changes the image if the it's name changed otherwise the browser will continue to show old cache image'
-                            based on the content of the image a unique hash value is created and appended to image url*@
-                                </div>
-                            </td>
-                        </tr>
-
-                }
-            </tbody>
         </table>
     </div>
 </div>
+
+@section Scripts{
+    <script src="~/js/product.js"></script>
+}

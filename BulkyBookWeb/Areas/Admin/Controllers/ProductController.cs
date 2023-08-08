@@ -1,6 +1,7 @@
 ﻿using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Models.ViewModel;
+using MessagePack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Product> products = _unitOfWork.Product.GetAll(includeProp:"Category").ToList();
+            List<Product> products = _unitOfWork.Product.GetAll(includeProp:"Category").ToList();
             return View(products);
         }
         // GET 
@@ -62,29 +63,30 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
                 string webRootPath = _hostEnvironment.WebRootPath;
 
-                if(file is not null)
+                if (file is not null)
                 {
                     string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string ProductPath = Path.Combine(webRootPath,@"images\product");
+                    string ProductPath = Path.Combine(webRootPath, @"images\product");
 
                     if (!string.IsNullOrEmpty(vM.Product.ImageUrl))
                     {
                         //delete the original file
                         string oldfilepath = Path.Combine(webRootPath, vM.Product.ImageUrl.TrimStart('\\'));
-                        
-                        if(System.IO.File.Exists(oldfilepath)) // this is to check if the file exists or not 
+
+                        if (System.IO.File.Exists(oldfilepath)) // this is to check if the file exists or not 
                         {
                             System.IO.File.Delete(oldfilepath);// this is to delete the file
                         }
                     }
 
 
-                    using (var filestream = new FileStream(Path.Combine(ProductPath, filename),FileMode.Create))
+                    using (var filestream = new FileStream(Path.Combine(ProductPath, filename), FileMode.Create))
                     {
                         file.CopyTo(filestream);
                     }
 
                     vM.Product.ImageUrl = @"\images\product\" + filename;
+                }
 
                     if(vM.Product.Id is 0)
                     {
@@ -96,7 +98,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                         // to update an existing product
                         _unitOfWork.Product.Update(vM.Product);
                     }
-                }
+                
 
                 
                 _unitOfWork.Save();
@@ -149,7 +151,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return View(product);
 
         }*/
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Delete(int? id)
         {
             if(id is null or 0)
@@ -178,6 +180,36 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             TempData["Success"] = "Product Deleted successfully";
             return RedirectToAction(nameof(Index));
 
+        }*/
+        #region API CALLS
+        [HttpGet]
+
+        public IActionResult GetAll()
+        {
+            List<Product> products = _unitOfWork.Product.GetAll(includeProp: "Category").ToList();
+
+            return Json(new { data = products });
         }
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            var ProductToBeDeleted = _unitOfWork.Product.Get(u => u.Id == id);
+
+            if(ProductToBeDeleted is null)
+            {
+                return Json(new { success = false, message = "Error while deleting" });
+            }
+
+            var oldimage = Path.Combine(_hostEnvironment.WebRootPath, ProductToBeDeleted.ImageUrl.TrimStart('\\'));
+            if(System.IO.File.Exists(oldimage))
+            {
+                System.IO.File.Delete(oldimage);
+            }
+            _unitOfWork.Product.Remove(ProductToBeDeleted);
+            _unitOfWork.Save();
+            return Json(new { success = true, message = "Delete Successful" });
+
+        }
+        #endregion
     }
 }
