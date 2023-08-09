@@ -24,6 +24,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return View(products);
         }
         // GET 
+        [HttpGet]
         public IActionResult Upsert(int? id)// upsert is a combination of update and insert 
         {
             IEnumerable<SelectListItem> listItems = _unitOfWork.Category.GetAll().Select( // this is a list of select list items 
@@ -33,7 +34,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                     Value = u.Id.ToString()
                 }
              );// this concept is called projection in which we project the data from one form to another  
-            ViewBag.CategoryList = listItems;// this is a dynamic property that can be used to pass data from the controller to the view 
+           // ViewBag.CategoryList = listItems;// this is a dynamic property that can be used to pass data from the controller to the view 
             // and we use projection because we want to pass only the name and id of the category to the view and not the entire category object
             ProductVM productVM = new()// viewmodel
             {

@@ -8,7 +8,7 @@ presumably to initialize and load data into a DataTable component or similar fun
 
 By using $(document).ready(), you ensure that 
 your code runs at the appropriate time, after the DOM is ready for manipulation.*/
-var datatable;
+//var datatable;
 function loadDataTable() {
     datatable = $('#tblData').DataTable({
         "ajax": { url: '/Admin/Product/GetAll' },
@@ -29,7 +29,7 @@ function loadDataTable() {
 
                 },
                 width: "25%"
-            },
+            },s
 
         ]
 

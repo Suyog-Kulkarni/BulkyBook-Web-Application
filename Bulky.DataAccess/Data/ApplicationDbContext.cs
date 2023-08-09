@@ -1,10 +1,12 @@
 ﻿using Bulky.Models;
 using BulkyBook.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 namespace Bulky.DataAccess.Data;
-public class ApplicationDbContext : DbContext
- {
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+{
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option) : base(option)
     {
         /* reference of dbcontextoptions tell us about the configuration of connection string and database provider to use */
@@ -20,6 +22,8 @@ public class ApplicationDbContext : DbContext
     // this seeds the database with data when the application starts up or when the database is created for the first time 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);// this is used to call the base class method 
+
         modelBuilder.Entity<Category>().HasData(
             new Category { Id = 1, Name = "Web Development" ,DisplayOrder=1 },
             new Category { Id = 2, Name = "Programming Languages", DisplayOrder = 2 },
