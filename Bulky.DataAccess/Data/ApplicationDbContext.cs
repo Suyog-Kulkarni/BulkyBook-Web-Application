@@ -18,6 +18,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
     public DbSet<Product> Products { get; set; }
 
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     // this seeds the database with data when the application starts up or when the database is created for the first time 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
