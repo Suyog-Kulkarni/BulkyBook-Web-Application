@@ -2,6 +2,8 @@
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using BulkyBook.DataAccess.Repository.IRepository;
+using BulkyBook.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 
@@ -10,7 +12,8 @@ using Microsoft.Identity.Client;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin")]// this is an attribute that is used to define the area of the controller 
+    [Authorize(Roles =SD.Role_Admin)]// only admin can access this controller 
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

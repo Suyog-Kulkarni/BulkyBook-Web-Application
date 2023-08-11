@@ -17,8 +17,17 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseSq
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
-builder.Services.AddIdentity<IdentityUser,IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();// its work is to add identity user and role to dbcontext 
+builder.Services
+    .AddIdentity<IdentityUser,IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+// its work is to add identity user and role to dbcontext and also add token provider for password reset and email confirmation etc 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});// this is used to configure the url of application
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 // in transient service, jevdhya ves service call kelya jail tevdha ves new object create karto
