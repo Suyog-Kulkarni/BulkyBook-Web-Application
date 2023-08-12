@@ -4,16 +4,19 @@ using Bulky.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Bulky.DataAccess.Migrations
+namespace BulkyBookWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230812105820_AddCompanyTable")]
+    partial class AddCompanyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,21 +52,21 @@ namespace Bulky.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDateTime = new DateTime(2023, 8, 12, 17, 25, 25, 229, DateTimeKind.Local).AddTicks(3810),
+                            CreatedDateTime = new DateTime(2023, 8, 12, 16, 28, 20, 450, DateTimeKind.Local).AddTicks(2615),
                             DisplayOrder = 1,
                             Name = "Web Development"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDateTime = new DateTime(2023, 8, 12, 17, 25, 25, 229, DateTimeKind.Local).AddTicks(3823),
+                            CreatedDateTime = new DateTime(2023, 8, 12, 16, 28, 20, 450, DateTimeKind.Local).AddTicks(2625),
                             DisplayOrder = 2,
                             Name = "Programming Languages"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDateTime = new DateTime(2023, 8, 12, 17, 25, 25, 229, DateTimeKind.Local).AddTicks(3824),
+                            CreatedDateTime = new DateTime(2023, 8, 12, 16, 28, 20, 450, DateTimeKind.Local).AddTicks(2626),
                             DisplayOrder = 3,
                             Name = "Database"
                         });
@@ -99,38 +102,6 @@ namespace Bulky.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Pune",
-                            Name = "Google",
-                            PhoneNumber = "1234567890",
-                            PostalCode = "411048",
-                            State = "Maharashtra",
-                            StreetAddress = "123 Tech"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = "Pune",
-                            Name = "Microsoft",
-                            PhoneNumber = "7484744677",
-                            PostalCode = "411048",
-                            State = "Maharashtra",
-                            StreetAddress = "890 Tech"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = "Pune",
-                            Name = "Amazon",
-                            PhoneNumber = "1234567890",
-                            PostalCode = "411048",
-                            State = "Maharashtra",
-                            StreetAddress = "456 Tech"
-                        });
                 });
 
             modelBuilder.Entity("BulkyBook.Models.Product", b =>

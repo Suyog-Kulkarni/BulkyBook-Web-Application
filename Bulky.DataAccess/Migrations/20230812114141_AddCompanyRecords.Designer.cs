@@ -4,16 +4,19 @@ using Bulky.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Bulky.DataAccess.Migrations
+namespace BulkyBookWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230812114141_AddCompanyRecords")]
+    partial class AddCompanyRecords
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,21 +52,21 @@ namespace Bulky.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDateTime = new DateTime(2023, 8, 12, 17, 25, 25, 229, DateTimeKind.Local).AddTicks(3810),
+                            CreatedDateTime = new DateTime(2023, 8, 12, 17, 11, 41, 654, DateTimeKind.Local).AddTicks(8511),
                             DisplayOrder = 1,
                             Name = "Web Development"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDateTime = new DateTime(2023, 8, 12, 17, 25, 25, 229, DateTimeKind.Local).AddTicks(3823),
+                            CreatedDateTime = new DateTime(2023, 8, 12, 17, 11, 41, 654, DateTimeKind.Local).AddTicks(8524),
                             DisplayOrder = 2,
                             Name = "Programming Languages"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDateTime = new DateTime(2023, 8, 12, 17, 25, 25, 229, DateTimeKind.Local).AddTicks(3824),
+                            CreatedDateTime = new DateTime(2023, 8, 12, 17, 11, 41, 654, DateTimeKind.Local).AddTicks(8525),
                             DisplayOrder = 3,
                             Name = "Database"
                         });

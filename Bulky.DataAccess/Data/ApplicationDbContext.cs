@@ -20,6 +20,8 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
+    public DbSet<Company> Companies { get; set; }
+
     // this seeds the database with data when the application starts up or when the database is created for the first time 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,6 +31,12 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
             new Category { Id = 1, Name = "Web Development" ,DisplayOrder=1 },
             new Category { Id = 2, Name = "Programming Languages", DisplayOrder = 2 },
             new Category { Id = 3, Name = "Database", DisplayOrder = 3 }
+            );
+
+        modelBuilder.Entity<Company>().HasData(
+            new Company { Id = 1, Name = "Google", StreetAddress="123 Tech", City="Pune", PhoneNumber="1234567890", PostalCode="411048", State="Maharashtra"},
+            new Company { Id = 2, Name = "Microsoft", StreetAddress = "890 Tech", City = "Pune", PhoneNumber = "7484744677", PostalCode = "411048", State = "Maharashtra" },
+            new Company { Id = 3, Name = "Amazon", StreetAddress = "456 Tech", City = "Pune", PhoneNumber = "1234567890", PostalCode = "411048", State = "Maharashtra" }
             );
         modelBuilder.Entity<Product>().HasData(
             new Product
