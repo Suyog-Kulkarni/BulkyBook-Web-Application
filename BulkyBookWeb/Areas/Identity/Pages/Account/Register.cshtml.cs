@@ -166,7 +166,7 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
                 user.StreetAddress = Input.StreetAddress;
                 user.City = Input.City;
                 user.State = Input.State;
-                user.PostalCode = Convert.ToInt16(Input.PostalCode);
+                user.PostalCode = Input.PostalCode;
                 user.PhoneNumber = Input.PhoneNumber;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
