@@ -9,28 +9,28 @@ presumably to initialize and load data into a DataTable component or similar fun
 
 By using $(document).ready(), you ensure that 
 your code runs at the appropriate time, after the DOM is ready for manipulation.*/
-
+//var datatable;
 function loadDataTable() {
     datatable = $('#tblData').DataTable({
         "ajax": { url: '/admin/product/getall' },
         "columns": [
-            { data: "title", width: "25%" },
-            { data: "isbn", width: "15%" },
-            { data: "price", width: "10%" },
-            { data: "author", width: "15%" },
-            { data: "category.name", width: "10%" },
+            { "data": "title", width: "25%" },
+            { "data": "isbn", width: "15%" },
+            { "data": "price", width: "10%" },
+            { "data": "author", width: "15%" },
+            { "data": "category.name", width: "15%" },
             {
                 data: "id",
                 "render": function (data) {
                     return `<div class="w-75 btn-group" role="group">
                     <a href="/admin/product/upsert?id=${data}" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
-                    <a onClick=Delete("/admin/product/delete/${data}") class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i>Delete</a>
+                    <a onClick=Delete('/admin/product/delete/${data}') class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i>Delete</a>
                     </div >`
 
 
                 },
-                width: "25%"
-            },s
+                width: "20%"
+            },
 
         ]
 
@@ -49,7 +49,7 @@ function Delete(url) {
         if (result.isConfirmed) {
             $.ajax({
                 url: url,
-                type : 'DELETE' ,
+                type: 'DELETE',
                 success: function (data) {
                     // data is the response from the controller from the delete api call in json format
                     datatable.ajax.reload();

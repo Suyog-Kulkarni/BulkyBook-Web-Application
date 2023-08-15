@@ -1,7 +1,4 @@
 ﻿@model IEnumerable<Company>
-@{
-    ViewData["Title"] = "Index";
-}
 
 @*Layout = "_can set any layout for that particular view";*@
 <div class="card shadow border-0 my-4">
@@ -19,7 +16,7 @@
             <div class="col-6"></div>
             <div class="col-6 text-end">
                 <a asp-controller="Company" asp-action="Upsert" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> &nbsp; Create New Product
+                    <i class="bi bi-plus-circle"></i> &nbsp; Create New Company
                 </a>
             </div>
         </div>
@@ -49,5 +46,5 @@
 </div>
 
 @section Scripts{
-    <script src="~/js/Company.js"></script>
+    <script src="~/js/company.js"></script>
 }

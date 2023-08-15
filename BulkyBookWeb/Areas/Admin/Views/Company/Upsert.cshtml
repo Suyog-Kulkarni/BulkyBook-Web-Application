@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="card-body p-4">
-        <form method="post" class="row" enctype="multipart/form-data"> @* without enctype file upload will not work *@
+        <form method="post" class="row"> @* without enctype file upload will not work *@
             <input asp-for="Id" hidden/>
             <div class="col-12">
                 <div class="border p-3">
@@ -52,6 +52,13 @@
 
 
                     </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="State" class="form-control border-0 shadow" />
+                        <label asp-for="State" class="ms-2"> </label>
+                        <span asp-validation-for="State" class="text-danger"></span>
+
+
+                    </div>
 
                     <div class="row pt-2">
                         <div class="col-6 col-md-3">
@@ -82,7 +89,7 @@
 @* A section allows you to add something in a view which will be added in the layout. or to render a cartain,part *@
 @section Scripts{
 
-    <script>
+    @*<script>
         tinymce.init({
             selector: 'textarea',
             plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
@@ -95,8 +102,7 @@
             ],
             ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant"))
         });
-    </script>
-    <script src="~/js/Company.js"></script>
+    </script>*@
     @{
         <partial name="_ValidationScriptsPartial"/>
     }
