@@ -69,6 +69,13 @@
                         </select>
                         @*This is the default option that will be selected on page load *@
                     </div>
+                        <div class="form-floating mb-3 col-md-6">
+                            <select asp-for="Input.CompanyId" asp-items="@Model.Input.CompanyList" class="form-select">
+                                <option disabled selected>-Select Company-</option>
+                            </select>
+                            @*This is the default option that will be selected on page load *@
+                        </div>
+                    
                     <div class="col-12">
                         <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
                     </div>
@@ -114,4 +121,20 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script> /*this is the script that I added to hide/show the company dropdown based on the role selected by the user */
+    /*in this Input_Role is the id of the dropdown and Input_CompanyId is the id of the company dropdown which helps to hide/show the dropdown based on the role selected by the user */
+        $(document).ready(function(){
+            $('#Input_Role').change(function(){
+                var selectedRole = $('#Input_Role Option:Selected').text();
+                if(selectedRole=='Company'){
+                    $('#Input_CompanyId').show();
+                }
+                else{
+                    $('#Input_CompanyId').hide();
+                }
+            })
+        })
+
+        
+    </script>
 }
