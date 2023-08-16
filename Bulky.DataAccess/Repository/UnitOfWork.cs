@@ -16,6 +16,8 @@ namespace BulkyBook.DataAccess.Repository
         public ICategoryRepository Category { get; private set; } // private set because we don't want to set it from outside
         public IProductRepository Product { get; private set; }
         public ICompanyRepository Company { get; private set; }
+        public IShoppingCartRepository ShoppingCart { get; private set; }
+        public IApplicationUserRepo ApplicationUser { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db) // constructor
         {
@@ -23,17 +25,13 @@ namespace BulkyBook.DataAccess.Repository
             Category = new CategoryRepository(_db);
             Product = new ProductRepository(_db);
             Company = new CompanyRepository(_db);
+            ShoppingCart = new ShoppingCartRepository(_db);
+            ApplicationUser = new ApplicationUserRepo(_db);
         }
 
         public void Save()
         {
             _db.SaveChanges();
-        }   
-
-       /* public void Dispose()
-        {
-            _db.Dispose();
-        }*/
-
+        } 
     }
 }

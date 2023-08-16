@@ -22,6 +22,8 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
     public DbSet<Company> Companies { get; set; }
 
+    public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+
     // this seeds the database with data when the application starts up or when the database is created for the first time 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
