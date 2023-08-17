@@ -1,12 +1,8 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository.IRepository;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
@@ -29,23 +25,36 @@ namespace Bulky.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeProp = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProp = null, bool tracked = false)
         {
-            IQueryable<T> query = dbSet; // IQueryable is an interface that allows us to write queries against the database
+            IQueryable<T> query;
+            if (tracked)
+            {
+                query = dbSet; // IQueryable is an interface that allows us to write queries against the database
+               
+            }
+            else
+            {
+                query = dbSet.AsNoTracking(); // IQueryable is an interface that allows us to write queries against the database
+                
+            }
+
             query = query.Where(filter); // filter is a lambda expression that returns a boolean value
             if (!String.IsNullOrEmpty(includeProp))
             {
-                foreach(var item in includeProp.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var item in includeProp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(item);
                 }
             }
+            
+            return query.FirstOrDefault();
 
             /*IEnumerable<T> any = _db.Categories.FirstOrDefault(u => u.Id = object.id);
             return any;*/
             // this is for when object is taken
 
-            return query.FirstOrDefault();
+
             // above process is similar to _db.Categories.FirstOrDefault(c => c.Id == id);
         }
 

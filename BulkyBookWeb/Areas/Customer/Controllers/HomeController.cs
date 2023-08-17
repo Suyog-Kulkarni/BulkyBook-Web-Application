@@ -44,11 +44,26 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
         [Authorize]// authorize is impoartant to get that particualr user information
         public IActionResult Details(ShoppingCart shoppingCart)
         {
+            shoppingCart.Id = 0;
             var cliamsIdentity = (ClaimsIdentity)User.Identity;
             var userId = cliamsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             shoppingCart.ApplicationUserId = userId;
 
-            _unitOfWork.ShoppingCart.Add(shoppingCart);
+            ShoppingCart cartfromdb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId &&
+            u.ProductId == shoppingCart.ProductId);// check if cart already exists for that product for that user or not 
+
+            if(cartfromdb is not null)
+            {
+                // cart already exists for that product for that user
+                cartfromdb.Count += shoppingCart.Count;// add the count to the existing count
+                _unitOfWork.ShoppingCart.Update(cartfromdb);
+            }
+            else
+            {
+                // no cart exists for that product for that user
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+
+            }
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
