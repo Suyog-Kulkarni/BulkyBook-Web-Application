@@ -21,4 +21,7 @@ public class ShoppingCart
     [ForeignKey("ApplicationUserId")]
     [ValidateNever]
     public ApplicationUser ApplicationUser { get; set; }
+
+    [NotMapped]// this property will not be added to the database because it is not mapped to any column in the database 
+    public double Price { get; set; }
 }

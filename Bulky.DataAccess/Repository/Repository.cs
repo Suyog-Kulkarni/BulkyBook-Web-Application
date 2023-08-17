@@ -58,9 +58,14 @@ namespace Bulky.DataAccess.Repository
             // above process is similar to _db.Categories.FirstOrDefault(c => c.Id == id);
         }
 
-        public IEnumerable<T> GetAll(string? includeProp = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includeProp = null)
         {
             IQueryable<T> query = dbSet; // IQueryable is an interface that allows us to write queries against the database , IQueryable is a generic interface that takes a type parameter 
+            if (filter is not null)
+            {
+                query = query.Where(filter);// 
+            }
+
             if (!String.IsNullOrEmpty(includeProp))
             {
                 foreach(var item in includeProp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
