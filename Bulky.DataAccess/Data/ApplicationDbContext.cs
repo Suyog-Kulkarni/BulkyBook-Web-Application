@@ -2,7 +2,6 @@
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 namespace Bulky.DataAccess.Data;
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>

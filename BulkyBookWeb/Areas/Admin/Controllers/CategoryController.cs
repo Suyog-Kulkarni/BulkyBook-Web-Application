@@ -73,7 +73,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if (id == null || id == 0)
+            if (id is null or 0)
             {
                 return NotFound();
             }
@@ -119,7 +119,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Delete(int? id)
         {
-            if (id == null || id == 0)
+            if (id is null or 0)
             {
                 return NotFound();
             }
