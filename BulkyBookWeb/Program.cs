@@ -1,12 +1,11 @@
 using Bulky.DataAccess.Data;
-using Bulky.DataAccess.Repository;
-using Bulky.DataAccess.Repository.IRepository;
 using BulkyBook.DataAccess.Repository;
 using BulkyBook.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using BulkyBook.Utilities;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +15,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+// to populate the secretkey and publishablekey in stripesettings without Iconfiguration
 
 builder.Services
     .AddIdentity<IdentityUser,IdentityRole>()
@@ -48,7 +50,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+StripeConfiguration.ApiKey= builder.Configuration.GetSection("Stripe:SecretKey").Get<String>();
+// the first approach (ToString()) retrieves the entire section and its sub-sections as a string,
+// while the second approach (Get<string>())
+// specifically retrieves the value associated with the "Stripe:SecretKey" key as a string,
+// and it's a more appropriate way to retrieve the value itself if that's what you need
 app.UseRouting();
 app.UseAuthentication();;
 

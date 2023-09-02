@@ -114,15 +114,16 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             ShoppingCartVM.OrderHeader.OrderDate = System.DateTime.Now;
             ShoppingCartVM.OrderHeader.ApplicationUserId = UserId;
 
-            ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == UserId);
-
+            /*ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == UserId);*/
+            // during the insertion the ef will think that we are going to crete new entity so never populate navigation propert 
+            ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == UserId);
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
                 cart.Price = GetPriceBasedOnQuanity(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
 
-            if (ShoppingCartVM.OrderHeader.ApplicationUser.CompanyId.GetValueOrDefault() == 0)
+            if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
                 // regular customer
                 ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
@@ -150,7 +151,15 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
                 _unitOfWork.OrderDetail.Add(orderDetail);
                 _unitOfWork.Save();
             }
-            return View(ShoppingCartVM);
+            if (applicationUser.CompanyId.GetValueOrDefault() == 0)
+            {
+                // stripe logic
+            }
+            return RedirectToAction(nameof(OrderConfirmation), new {id = ShoppingCartVM.OrderHeader.Id});
+        }
+        public IActionResult OrderConfirmation(int id)
+        {
+            return View(id);
         }
         private double GetPriceBasedOnQuanity(ShoppingCart shoppingcart)
         {
