@@ -4,6 +4,7 @@ using BulkyBook.Models.ViewModel;
 using BulkyBook.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe.Checkout;
 
 namespace BulkyBookWeb.Areas.Customer.Controllers
 {
@@ -81,10 +82,10 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
                 ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == UserId,
                 includeProp: "Product"), // get all the products in the cart for that user 
                 OrderHeader = new()// we need to initialize this because we are using it in the view
-                
+
             };
             ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == UserId);
-            
+
             ShoppingCartVM.OrderHeader.Name = ShoppingCartVM.OrderHeader.ApplicationUser.Name;
             ShoppingCartVM.OrderHeader.PhoneNumber = ShoppingCartVM.OrderHeader.ApplicationUser.PhoneNumber;
             ShoppingCartVM.OrderHeader.StreetAddress = ShoppingCartVM.OrderHeader.ApplicationUser.StreetAddress;
@@ -95,7 +96,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
-                cart.Price = GetPriceBasedOnQuanity(cart);  
+                cart.Price = GetPriceBasedOnQuanity(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
             return View(ShoppingCartVM);
@@ -139,7 +140,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             _unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
             _unitOfWork.Save();
 
-            foreach(var item in ShoppingCartVM.ShoppingCartList)
+            foreach (var item in ShoppingCartVM.ShoppingCartList)
             {
                 OrderDetail orderDetail = new()
                 {
@@ -154,11 +155,72 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
                 // stripe logic
+                var domain = "https://localhost:7244/";
+              // how to add google pay and apple pay to stripe payment page please tell me 
+              // https://stripe.com/docs/payments/accept-a-payment?integration=elements 
+                var options = new SessionCreateOptions
+                {
+                    SuccessUrl = domain + $"Customer/Cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                    CancelUrl = domain + "Customer/Cart/Index",
+                    LineItems = new List<SessionLineItemOptions>(),
+                    Mode = "payment",
+
+
+
+                };
+
+                foreach(var item in ShoppingCartVM.ShoppingCartList)
+                {
+                    var sessionLineItem = new SessionLineItemOptions// this is the product that will be displayed on the stripe payment page 
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions// this is the price of the product that will be displayed on the stripe payment page 
+                        {
+                            UnitAmount = (long)(item.Price * 100),
+                            Currency = "inr",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = item.Product.Title,// this is the name of the product that will be displayed on the stripe payment page 
+                                
+                            }
+                            
+                        },
+                        Quantity = item.Count
+                    };
+                    options.LineItems.Add(sessionLineItem);
+                }
+                var service = new SessionService();
+                Session session = service.Create(options);
+                _unitOfWork.OrderHeader.UpdateStripePaymentId(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
+                _unitOfWork.Save();
+
+                Response.Headers.Add("Location", session.Url);//  
+                return new StatusCodeResult(303);// 303 is used to redirect to the stripe payment page
             }
-            return RedirectToAction(nameof(OrderConfirmation), new {id = ShoppingCartVM.OrderHeader.Id});
+            return RedirectToAction(nameof(OrderConfirmation), new { id = ShoppingCartVM.OrderHeader.Id });
         }
         public IActionResult OrderConfirmation(int id)
         {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id==id, includeProp: "ApplicationUser");
+            if(orderHeader.PaymentStatus is not SD.PaymentStatusDelayedPayment)
+            {
+                // this is an order that is not paid for by company, paid by customer
+                var service = new SessionService();
+                Session session = service.Get(orderHeader.SessionId);
+
+                if(session.PaymentStatus.ToLower() is "paid")
+                {
+                    _unitOfWork.OrderHeader.UpdateStripePaymentId(id,session.Id,session.PaymentIntentId);
+                    _unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+                    _unitOfWork.Save();
+                }
+            }
+
+            List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart
+                .GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUserId)
+                .ToList();
+
+            _unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
+            _unitOfWork.Save();
             return View(id);
         }
         private double GetPriceBasedOnQuanity(ShoppingCart shoppingcart)
