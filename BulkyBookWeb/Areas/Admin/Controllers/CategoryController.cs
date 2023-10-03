@@ -13,7 +13,7 @@ using Microsoft.Identity.Client;
 namespace BulkyBookWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]// this is an attribute that is used to define the area of the controller 
-    /*[Authorize(Roles =SD.Role_Admin)]*/// only admin can access this controller 
+    [Authorize(Roles =SD.Role_Admin)]// only admin can access this controller 
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

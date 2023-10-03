@@ -2,6 +2,7 @@
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Models.ViewModel;
+using BulkyBook.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -27,6 +28,14 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            var cliamsIdentity = (ClaimsIdentity)User.Identity;
+            var claims = cliamsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if(claims is not null)
+            {
+                HttpContext.Session.SetInt32(SD.SessionCart, 
+                             _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claims.Value).Count());
+            }
+            // above code shows the count of shopping cart after the logouts and logins afterwards 
             IEnumerable<Product> products= _unitOfWork.Product.GetAll(includeProp:"Category");
             return View(products);
         }
@@ -48,7 +57,9 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             shoppingCart.Id = 0;
             var cliamsIdentity = (ClaimsIdentity)User.Identity;
             var userId = cliamsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            shoppingCart.ApplicationUserId = userId;
+            shoppingCart.ApplicationUserId = userId;// this is used to get the user id of the user who is logged in
+            // we are getting the user id of the user who is logged in and storing it in applicationuserid
+            
 
             ShoppingCart cartfromdb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId &&
             u.ProductId == shoppingCart.ProductId);// check if cart already exists for that product for that user or not 
@@ -58,14 +69,22 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
                 // cart already exists for that product for that user
                 cartfromdb.Count += shoppingCart.Count;// add the count to the existing count
                 _unitOfWork.ShoppingCart.Update(cartfromdb);
+                _unitOfWork.Save();
             }
             else
             {
                 // no cart exists for that product for that user
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart, 
+                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
+                // this is used to store the session in memory cache 
+                // we re getting all the shopping cart of that user and storing it in session 
+                // so that we can use it in other pages
+                // we are storing the count of shopping cart in session
 
             }
-            _unitOfWork.Save();
+            
             return RedirectToAction(nameof(Index));
         }
 

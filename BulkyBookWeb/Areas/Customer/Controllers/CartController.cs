@@ -50,10 +50,13 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
         }
         public IActionResult Minus(int cartId)
         {
-            var cartfromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+            var cartfromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
             if (cartfromDb.Count <= 1)
             {
                 //remove that cart
+
+                HttpContext.Session.SetInt32(SD.SessionCart,
+                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartfromDb.ApplicationUserId).Count() - 1);
                 _unitOfWork.ShoppingCart.Remove(cartfromDb);
             }
             else
@@ -67,8 +70,13 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
         }
         public IActionResult Remove(int cartId)
         {
-            var cartfromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+            var cartfromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
+            HttpContext.Session.SetInt32(SD.SessionCart,
+                _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartfromDb.ApplicationUserId).Count()-1);
+            // we are removing one item from the cart so we need to update the session cart count
+            // we are using the session cart count to display the number of items in the cart in the navbar
             _unitOfWork.ShoppingCart.Remove(cartfromDb);
+           
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }

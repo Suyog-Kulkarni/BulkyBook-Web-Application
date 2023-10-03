@@ -31,6 +31,14 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });// this is used to configure the url of application
 
+builder.Services.AddDistributedMemoryCache();// this is used to store the session in memory cache 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});// this is used to configure the session
+
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 // in transient service, jevdhya ves service call kelya jail tevdha ves new object create karto
 // in scoped service, pratek service la ekdach implemantation delya jail karan he request var depend karto
@@ -56,11 +64,10 @@ StripeConfiguration.ApiKey= builder.Configuration.GetSection("Stripe:SecretKey")
 // specifically retrieves the value associated with the "Stripe:SecretKey" key as a string,
 // and it's a more appropriate way to retrieve the value itself if that's what you need
 app.UseRouting();
-app.UseAuthentication();;
-
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
-
+app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");

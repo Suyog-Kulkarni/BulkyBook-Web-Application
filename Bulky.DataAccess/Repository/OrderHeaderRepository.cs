@@ -34,16 +34,18 @@ namespace Bulky.DataAccess.Repository
         public void UpdateStripePaymentId(int id, string sessionId, string paymentIntentId)
         {
             var orderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == id);
-            if (!String.IsNullOrEmpty(sessionId))
-            {
-                orderFromDb.SessionId = sessionId;
-            }
+            
+                if (!String.IsNullOrEmpty(sessionId))
+                {
+                    orderFromDb.SessionId = sessionId;
+                }
 
-            if (!String.IsNullOrEmpty(paymentIntentId))
-            {
-                orderFromDb.PaymentIntentId = paymentIntentId;
-                orderFromDb.PayementDate = DateTime.Now;
-            }
+                if (!String.IsNullOrEmpty(paymentIntentId))
+                {
+                    orderFromDb.PaymentIntentId = paymentIntentId;
+                    orderFromDb.PayementDate = DateTime.Now;
+                }
+            
         }
     }
 }
