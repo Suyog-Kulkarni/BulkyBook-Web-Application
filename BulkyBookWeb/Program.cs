@@ -31,6 +31,12 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });// this is used to configure the url of application
 
+builder.Services.AddAuthentication().AddFacebook(options =>
+{
+    options.AppId = "816452900481629";
+    options.AppSecret = "dc432a5073fee3bc7beba977b428a00e";
+});// this is used to configure the facebook login
+
 builder.Services.AddDistributedMemoryCache();// this is used to store the session in memory cache 
 builder.Services.AddSession(options =>
 {

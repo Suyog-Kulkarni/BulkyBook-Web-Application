@@ -26,8 +26,8 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
-            HttpContext.Session.Clear();// Clear session on logout to clear cart items and count 
-            // to show 0 after logout
+           /* HttpContext.Session.Clear();// Clear session on logout to clear cart items and count 
+            // to show 0 after logout*/
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {

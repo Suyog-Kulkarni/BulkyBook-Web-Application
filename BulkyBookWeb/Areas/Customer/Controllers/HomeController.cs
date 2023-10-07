@@ -28,14 +28,14 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            var cliamsIdentity = (ClaimsIdentity)User.Identity;
+            /*var cliamsIdentity = (ClaimsIdentity)User.Identity;
             var claims = cliamsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             if(claims is not null)
             {
                 HttpContext.Session.SetInt32(SD.SessionCart, 
                              _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claims.Value).Count());
             }
-            // above code shows the count of shopping cart after the logouts and logins afterwards 
+            // above code shows the count of shopping cart after the logouts and logins afterwards*/ 
             IEnumerable<Product> products= _unitOfWork.Product.GetAll(includeProp:"Category");
             return View(products);
         }
