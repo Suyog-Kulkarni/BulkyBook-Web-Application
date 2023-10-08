@@ -27,6 +27,7 @@ namespace BulkyBookWeb.Migrations
                     Carrier = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PayementDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentDueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SessionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -79,21 +80,21 @@ namespace BulkyBookWeb.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "CreatedDateTime",
-                value: new DateTime(2023, 8, 18, 1, 47, 35, 216, DateTimeKind.Local).AddTicks(2940));
+                value: new DateTime(2023, 10, 9, 1, 10, 0, 65, DateTimeKind.Local).AddTicks(4926));
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "CreatedDateTime",
-                value: new DateTime(2023, 8, 18, 1, 47, 35, 216, DateTimeKind.Local).AddTicks(2953));
+                value: new DateTime(2023, 10, 9, 1, 10, 0, 65, DateTimeKind.Local).AddTicks(4937));
 
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "CreatedDateTime",
-                value: new DateTime(2023, 8, 18, 1, 47, 35, 216, DateTimeKind.Local).AddTicks(2954));
+                value: new DateTime(2023, 10, 9, 1, 10, 0, 65, DateTimeKind.Local).AddTicks(4938));
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_OrderHeaderId",
