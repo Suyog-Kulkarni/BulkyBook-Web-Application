@@ -76,18 +76,25 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
 app.UseSession();
-//SeedDatabase();
+SeedDatabase();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
 
-/*void SeedDatabase()
+void SeedDatabase()
 {
-    using(var scope = app.Services.CreateScope())
+    using (var scope = app.Services.CreateScope())
     {
-        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-        dbInitializer.Initialize();
+        /*var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();*/
+        var services = scope.ServiceProvider;
+
+        var context = services.GetRequiredService<IDbInitializer>();
+
+        
+
+        context.Initialize();
     }
-}*/
+}
