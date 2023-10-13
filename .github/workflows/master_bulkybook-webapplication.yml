@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - BulkyBook-WebApplication
+name: Build and deploy ASP.Net Core app to Azure Web App - bulkybook-webapplication
 
 on:
   push:
@@ -51,7 +51,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'BulkyBook-WebApplication'
+          app-name: 'bulkybook-webapplication'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CBCDFD591D4E4CF4B992D590D17683F6 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E97AC0FFE943443AAB9C34EA46F6B655 }}
           package: .
