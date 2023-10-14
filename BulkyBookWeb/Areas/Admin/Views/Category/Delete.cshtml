@@ -25,15 +25,13 @@
                 </div>
                 <div class="mb-3">
                     <input asp-for="DisplayOrder" disabled class="form-control border-0 shadow" />
-                    <label asp-for="DisplayOrder" class="ms-2"> </label>@*
-                    <span asp-validation-for="DisplayOrder" class="text-danger"></span>*@
+                    <label asp-for="DisplayOrder" class="ms-2"> </label>
 
                 </div>
                 <div class="row mt-3">
                     <div class="col-6 col-md-3">
                         <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
                     </div>
-                @*<button>Click</button>*@
                     <div class="col-6 col-md-3">
                     <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">
                          Back to List
@@ -45,14 +43,4 @@
     </div>
 </div>
 
-
-@* A section allows you to add something in a view which will be added in the layout. or to render a cartain,part *@
-@section Scripts{
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}
-@*View can basically contains a complete markup which may contain a master view(or master page)
-with all the design(s) etc.
-whereas Partial view is only a portion of page or a small markup which don’t have master page.*@
 
