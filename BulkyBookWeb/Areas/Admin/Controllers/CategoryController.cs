@@ -1,11 +1,8 @@
-﻿using Bulky.DataAccess.Data;
-using Bulky.DataAccess.Repository.IRepository;
-using Bulky.Models;
-using BulkyBook.DataAccess.Repository.IRepository;
+﻿using Bulky.Models;
 using BulkyBook.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
+using BulkyBook.DataAccess.Repository.IRepository;
 
 // while working with controllers restart to application to see the changes
 

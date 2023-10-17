@@ -142,7 +142,9 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
             // we can also create an object of InputModel and can add the list of roles in it but in view it will be difficult to access it
             Input = new()
             {// input is the property of input model so we can access it by Input.RoleList in view
-                RoleList = _roleManager.Roles.Select(u => u.Name).Select(x => new SelectListItem
+                RoleList = _roleManager.Roles
+                .Select(u => u.Name)
+                .Select(x => new SelectListItem
                 {
                     Text = x,
                     Value = x
@@ -155,13 +157,6 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
                 })
             };
 
-            /*InputModel inputModel = new();
-            
-            inputModel.RoleList = _roleManager.Roles.Select(u => u.Name).Select(x => new SelectListItem
-            {
-                Text = x,
-                Value = x
-            });*/
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
