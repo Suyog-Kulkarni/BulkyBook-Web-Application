@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PieShop", "..\PieShop\PieShop\PieShop.csproj", "{E69C01BD-31EE-4251-9F21-73EF64E49736}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Book Application", "C:\Users\kulka\OneDrive\Desktop\Book Application\BulkyBook\BulkyBookWeb\BulkyBookWeb.csproj", "{E69C01BD-31EE-4251-9F21-73EF64E49736}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

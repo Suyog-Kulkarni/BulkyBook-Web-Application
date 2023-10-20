@@ -23,8 +23,9 @@ public class ApplicationUser : IdentityUser
     public int? CompanyId { get; set; }
     [ForeignKey("CompanyId")]
     [ValidateNever]// this is used to prevent the company object from being validated because it is not being used in the view 
-    public Company Company { get; set; }// this not going to add in the database but it is going to be used to get the company object from the database
+    public Company? Company { get; set; }// this not going to add in the database but it is going to be used to get the company object from the database
     // this is a just a navigation property to the Company table so it will not be added to the database 
-
+    [NotMapped]// this is used to prevent the property from being added to the database
+    public string? Role { get; set; }// this is not going to be added to the database but it is going to be used to get the role of the user from the database
 }
 
