@@ -35,7 +35,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddAuthentication().AddFacebook(options =>
 {
     options.AppId = "816452900481629";
-    options.AppSecret = "dc432a5073fee3bc7beba977b428a00e";
+    options.AppSecret = "secret key";
 });// this is used to configure the facebook login
 
 builder.Services.AddDistributedMemoryCache();// this is used to store the session in memory cache 
